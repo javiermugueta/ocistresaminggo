@@ -59,11 +59,10 @@ func putMessage(client streaming.StreamClient, stream string, region string, key
 *
 *
 */
-func getMessage(client streaming.StreamClient, stream string, region string, limit int, mode string) (int, string){
+func getMessage(client streaming.StreamClient, stream string, region string, limit int, mode string, partition string) (int, string){
 	var req streaming.CreateCursorRequest
 	req.StreamId = &stream
 	req.Type = streaming.CreateCursorDetailsTypeEnum(mode)
-	var spartition string = "0"
 	req.Partition = &spartition
 	var det streaming.CreateCursorDetails
 	det.Partition = &stream
