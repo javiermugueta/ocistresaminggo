@@ -1,4 +1,4 @@
-# ocistresaminggo
+# ocistresaming go
 ## setup
 ```
 go get -u github.com/oracle/oci-go-sdk

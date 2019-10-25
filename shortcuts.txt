@@ -1,0 +1,1 @@
+git add *.go && git add *.md  && git commit -m . && git push
