@@ -29,7 +29,7 @@ func main() {
 	}
 	var frastream string = "ocid1.stream.oc1.eu-frankfurt-1.aaaaaaaao367olzjaxqejgoxdr4x7tzpygjxubhzcmjpak2d7qrpzipdqvja"
 	
-	for i:= 0; i < 100 ;i++{
+	for i:= 0; i < 1 ;i++{
 		putMessage(client, frastream, region, uuid.New().String(), fmt.Sprintf("{a:%d,b:{x:a,y:prueba}}", i))
 	}
 	getMessage(client, frastream, region, 999, "TRIM_HORIZON", "0")
