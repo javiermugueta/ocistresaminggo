@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/oracle/oci-go-sdk/common"
 	"github.com/oracle/oci-go-sdk/streaming"
+	"github.com/google/uuid"
 )
 
 var region string = "eu-frankfurt-1"
@@ -27,8 +28,11 @@ func main() {
 		return
 	}
 	var frastream string = "ocid1.stream.oc1.eu-frankfurt-1.aaaaaaaao367olzjaxqejgoxdr4x7tzpygjxubhzcmjpak2d7qrpzipdqvja"
-	putMessage(client, frastream, region, "miclave", "{a:1,b:{x:a,y:prueba}}")
-	getMessage(client, frastream, region, 999, "TRIM_HORIZON" )
+	
+	for i:= 0; i < 100 ;i++{
+		putMessage(client, frastream, region, uuid.New().String(), fmt.Sprintf("{a:%d,b:{x:a,y:prueba}}", i))
+	}
+	getMessage(client, frastream, region, 999, "TRIM_HORIZON", "0")
 	return
 }
 /*
@@ -63,7 +67,7 @@ func getMessage(client streaming.StreamClient, stream string, region string, lim
 	var req streaming.CreateCursorRequest
 	req.StreamId = &stream
 	req.Type = streaming.CreateCursorDetailsTypeEnum(mode)
-	req.Partition = &spartition
+	req.Partition = &partition
 	var det streaming.CreateCursorDetails
 	det.Partition = &stream
 	cursorresponse, err := client.CreateCursor(context.Background(), req)
@@ -78,7 +82,7 @@ func getMessage(client streaming.StreamClient, stream string, region string, lim
 	client.SetRegion(region)
 	resp, err := client.GetMessages(context.Background(), msgreq)
 	for i, v := range resp.Items {
-		fmt.Printf("%d %v %v\n", i, string(v.Key), string(v.Value))
+		fmt.Printf("%d %v %v\n", i, v.Key, string(v.Value))
 	}
 	return 0, ""
 }
